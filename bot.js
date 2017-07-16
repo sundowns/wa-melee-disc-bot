@@ -1,3 +1,4 @@
+"use strict";
 const prodToken = 'MzM2MDg3MDc3MzI4Mzg4MDk2.DEzM_g.bQmGftaFKu5doxCfyN8XV6kyq1s';
 const Discord = require("discord.js");
 const client = new Discord.Client();
