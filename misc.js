@@ -10,9 +10,9 @@ module.exports = {
             msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/smashwest");
         }
         else { //free form text detection
-            if (lowercaseContent.length > 1000) {
-                msg.reply(":exclamation: :octagonal_sign: woah calm down there Mr D'Cruze :octagonal_sign: :exclamation:");
-            }
+            // if (lowercaseContent.length > 1500) {
+            //     msg.reply(":exclamation: :octagonal_sign: woah calm down there Mr D'Cruze :octagonal_sign: :exclamation:");
+            // }
         }
     }
 }
