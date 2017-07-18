@@ -8,6 +8,15 @@ module.exports = {
             msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
             msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/smashwest");
+        } else if (lowercaseContent === prefix + 'netplay') {
+            var netplayRole = msg.guild.roles.find("name", "Netplay");
+            if(msg.member.roles.has(netplayRole.id)) {
+                msg.member.removeRole(netplayRole);
+                msg.reply("removed Netplay role");
+            } else {
+                msg.member.addRole(netplayRole);
+                msg.reply("added Netplay role");
+            }
         }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {
