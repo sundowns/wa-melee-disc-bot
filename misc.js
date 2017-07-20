@@ -17,6 +17,10 @@ module.exports = {
                 msg.member.addRole(netplayRole);
                 msg.reply("added Netplay role");
             }
+        } else if (lowercaseContent === prefix + 'rule1') {
+            msg.reply("\n http://imgur.com/a/NsNqI");
+        } else if (lowercaseContent === prefix + 'bbb') {
+            msg.reply("\n http://imgur.com/a/ainfP");
         }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {

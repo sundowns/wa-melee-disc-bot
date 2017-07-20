@@ -1,4 +1,4 @@
-const prodToken = 'MzM2MDg3MDc3MzI4Mzg4MDk2.DE9Iuw.Waw6_a0OnhqGSEoJzZqrDZegNk0';
+const prodToken = 'MzM2MDg3MDc3MzI4Mzg4MDk2.DFHBBA.Oz7cJywCs-4Bqls96vq-KAYlIC4';
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const misc = require('./misc');
