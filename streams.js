@@ -31,29 +31,34 @@ function findSuperSonic(emoji){
 
 function reportNewStreams(newStreams) {
     var channel = discordClient.channels.find(findStreamsChannel);
-    var msg = "\n ";
+    var msg = "";
     newStreams.forEach(function(id) {
         var stream = live[id];
-        msg = msg + "+ " + stream.title + '\n';
+        msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\nViewers: " + stream.viewers;
+        msg = msg + "\n*======*\n";
     });
-    channel.send("**Now Live:** \n" + msg + "\n" + supersonic + supersonic + supersonic + supersonic);
+    channel.send("**Now Live:** \n*======*\n" + msg + "\n" + supersonic + supersonic + supersonic + supersonic);
 }
 
 function reportAllStreams(promptMsg) {
     var channel = discordClient.channels.find(findStreamsChannel);
-    var msg = "\n ";
+    var msg = "";
     streams.forEach(function(name) {
         if (live[name]) {
-            var strim = live[name]
-            msg = msg + "+ " + strim.title + '\n';
+            var stream = live[name]
+            msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\n" + stream.img + "\nViewers: " + stream.viewers;
+            msg = msg + "\n*======*\n";
         }
     })
-    promptMsg.reply("**Live:** \n" + msg + "\n" + "Perth Tournament Streams: \n" + "\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
+    promptMsg.reply("\n**Live:** \n*======*\n" + msg + "\n" + "Perth Tournament Streams: \n" + "\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
 }
 
 var checkStreams = function() {
     var streamsDelimited = streams.join();
     requestClient.get('streams/?channel=' + streamsDelimited + gameQueryParameter, function(err, res, body) {
+        if (err) {
+            return console.log(err);
+        }
         latestStreams = body.streams;
         if (body._total > 0) {
             var newStreams = [];
