@@ -6,7 +6,10 @@ const streams = [
     'quetzalcoatl87',
     'sunnydowns',
     'perthsmash',
-    'curtinsmash'
+    'curtinsmash',
+    'chappos',
+    'melbournemelee',
+    'mrnoied'
 ];
 
 const gameQueryParameter = '&game=Super%20Smash%20Bros.%20Melee';
@@ -22,7 +25,7 @@ function findWaMeleeGuild(guild) {
 }
 
 function findStreamsChannel(channel) {
-    return channel.id == "336087767387865089"; // streams channel = '337881711436234752'
+    return channel.id == "337881711436234752"; // streams channel = '337881711436234752' //dumb bot shit = '336087767387865089'
 }
 
 function findSuperSonic(emoji){
@@ -41,12 +44,11 @@ function reportNewStreams(newStreams) {
 }
 
 function reportAllStreams(promptMsg) {
-    var channel = discordClient.channels.find(findStreamsChannel);
     var msg = "";
     streams.forEach(function(name) {
         if (live[name]) {
             var stream = live[name]
-            msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\n" + stream.img + "\nViewers: " + stream.viewers;
+            msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\nViewers: " + stream.viewers;
             msg = msg + "\n*======*\n";
         }
     })
