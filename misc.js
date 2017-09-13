@@ -3,7 +3,7 @@ const prefix = '.'
 module.exports = {
     MessageHandler : function(lowercaseContent, msg) {
         if (lowercaseContent === prefix + 'pr' || lowercaseContent === prefix + 'prs') {
-            msg.reply("\n http://imgur.com/RgTHr2M.jpg \n http://i.imgur.com/IqCOIpJ.png");
+            msg.reply("\n https://i.imgur.com/1DmMWem.png \n https://i.imgur.com/CSIdZ33.png");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
             msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/curtinsmash");
         } else if (lowercaseContent === prefix + 'netplay') {
@@ -17,8 +17,6 @@ module.exports = {
             }
         } else if (lowercaseContent === prefix + 'rule1') {
             msg.reply("\n http://imgur.com/a/NsNqI");
-        } else if (lowercaseContent === prefix + 'bbb') {
-            msg.reply("\n http://imgur.com/a/eRSlI \n\n https://docs.google.com/spreadsheets/d/1I4e5SBeQWxwxeM57mrxIw8SXwYO6qfGB97A7-U5BjA0/edit?usp=sharing");
         }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {

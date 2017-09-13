@@ -60,33 +60,34 @@ var checkStreams = function() {
     requestClient.get('streams/?channel=' + streamsDelimited + gameQueryParameter, function(err, res, body) {
         if (err) {
             return console.log(err);
-        }
-        latestStreams = body.streams;
-        if (body._total > 0) {
-            var newStreams = [];
-            body.streams.forEach(function(data) {
-                if (!live[data.channel.display_name]) {
-                    live[data.channel.display_name] = {
-                        title : data.channel.status,
-                        viewers : data.viewers,
-                        game : data.game,
-                        link : data.channel.url,
-                        img : data.preview.medium
-                    }
-
-                    newStreams.push(data.channel.display_name);
-                } else {
-                    //it already exists, just update the title/viewers
-                    live[data.channel.display_name].title = data.channel.status;
-                    live[data.channel.display_name].viewers = data.viewers;
-                }
-            });
-
-            if (newStreams.length > 0) {
-                reportNewStreams(newStreams);
-            }
         } else {
-            live = [];
+            latestStreams = body.streams;
+            if (body._total > 0) {
+                var newStreams = [];
+                body.streams.forEach(function(data) {
+                    if (!live[data.channel.display_name]) {
+                        live[data.channel.display_name] = {
+                            title : data.channel.status,
+                            viewers : data.viewers,
+                            game : data.game,
+                            link : data.channel.url,
+                            img : data.preview.medium
+                        }
+
+                        newStreams.push(data.channel.display_name);
+                    } else {
+                        //it already exists, just update the title/viewers
+                        live[data.channel.display_name].title = data.channel.status;
+                        live[data.channel.display_name].viewers = data.viewers;
+                    }
+                });
+
+                if (newStreams.length > 0) {
+                    reportNewStreams(newStreams);
+                }
+            } else {
+                live = [];
+            }
         }
     });
 }
