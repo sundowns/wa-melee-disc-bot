@@ -14,7 +14,7 @@ client.on('message', msg => {
     var lowercaseContent = msg.content.toLowerCase();
 
     if (lowercaseContent === '.help') {
-        msg.channel.send("```css\n .pr => Power Rankings \n .stream => Perth Streams \n .bracket => Perth Challonges \n .netplay => Toggle Netplay Role ```");
+        msg.channel.send("```css\n .pr => Power Rankings \n .stream => Perth Streams \n .bracket => Perth Challonges \n .netplay => Toggle Netplay Role \n .iso => Game Image Files ```");
     }
     misc.MessageHandler(lowercaseContent, msg);
     streams.MessageHandler(lowercaseContent, msg);

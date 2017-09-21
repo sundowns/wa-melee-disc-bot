@@ -18,6 +18,9 @@ module.exports = {
         } else if (lowercaseContent === prefix + 'rule1') {
             msg.reply("\n http://imgur.com/a/NsNqI");
         }
+        else if (lowercaseContent === prefix + 'iso') {
+            msg.reply("\n**PAL netplay build:** https://drive.google.com/open?id=0B192sB6TRmD3MTM1clNzUHBOZHc \n**Perth UCF build:** https://drive.google.com/open?id=0B1BQZKqdp2CV3QV5nUEsqSg1ygegLmqRygj \n**Vanilla PAL:** https://drive.google.com/open?id=0B1SUDiY2r7d4YnB0QTBhczRVOTQ");
+        }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {
             //     msg.reply(":exclamation: :octagonal_sign: woah calm down there Mr D'Cruze :octagonal_sign: :exclamation:");
