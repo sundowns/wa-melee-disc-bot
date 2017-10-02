@@ -3,9 +3,11 @@ const prefix = '.'
 module.exports = {
     MessageHandler : function(lowercaseContent, msg) {
         if (lowercaseContent === prefix + 'pr' || lowercaseContent === prefix + 'prs') {
-            msg.reply("\n https://i.imgur.com/1DmMWem.png \n https://i.imgur.com/CSIdZ33.png");
+            msg.reply("\n http://imgur.com/RgTHr2M.jpg \n http://i.imgur.com/IqCOIpJ.png");
+        } else if (lowercaseContent === prefix + 'stream' || lowercaseContent === prefix + 'streams') {
+            msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
-            msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/curtinsmash");
+            msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/smashwest");
         } else if (lowercaseContent === prefix + 'netplay') {
             var netplayRole = msg.guild.roles.find("name", "Netplay");
             if(msg.member.roles.has(netplayRole.id)) {
@@ -15,11 +17,6 @@ module.exports = {
                 msg.member.addRole(netplayRole);
                 msg.reply("added Netplay role");
             }
-        } else if (lowercaseContent === prefix + 'rule1') {
-            msg.reply("\n http://imgur.com/a/NsNqI");
-        }
-        else if (lowercaseContent === prefix + 'iso') {
-            msg.reply("\n**PAL netplay build:** https://drive.google.com/open?id=0B192sB6TRmD3MTM1clNzUHBOZHc \n**Perth UCF build:** https://drive.google.com/open?id=0B1BQZKqdp2CV3QV5nUEsqSg1ygegLmqRygj \n**Vanilla PAL:** https://drive.google.com/open?id=0B1SUDiY2r7d4YnB0QTBhczRVOTQ");
         }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {
