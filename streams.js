@@ -9,7 +9,8 @@ const streams = [
     'curtinsmash',
     'chappos',
     'melbournemelee',
-    'mrnoied'
+    'mrnoied',
+    'downsmashed'
 ];
 
 const gameQueryParameter = '&game=Super%20Smash%20Bros.%20Melee';

@@ -2,6 +2,7 @@ var Client = {}
 var Sinbin_role = {}
 var Admin_role = {}
 var Servers = {};
+var Emojis = {};
 
 function findAdminRole(role) {
     return role.name == "Admin";
@@ -9,6 +10,14 @@ function findAdminRole(role) {
 
 function findSinnerRole(role) {
     return role.name == "Naughty";
+}
+
+function findPaddlingEmoji(emoji) {
+    return emoji.name == "paddlin";
+}
+
+function findWAMeleeServer(server) {
+    return server.id == "336001917304045569";
 }
 
 module.exports = {
@@ -20,52 +29,61 @@ module.exports = {
             var sinnerRole = guild.roles.find(findSinnerRole);
             if (!sinnerRole) { console.log("Failed to find naughty role for guild: " + guild.name); }
             if (adminRole && sinnerRole) {
-                Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole};
+                Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
             }
         })
-        //iterate over guilds
+        Emojis["paddlin"] = Client.guilds.find(findWAMeleeServer).emojis.find(findPaddlingEmoji);
     },
     MessageHandler : function(lowercaseContent, msg) {
-        //ignore message if not sent by an admin
         var serverInfo = Servers[msg.guild.id];
         if (msg.member.roles.has(serverInfo.admin.id)) {
-            var mentionedUser = msg.mentions.members.first;
+            var mentionedUser = msg.mentions.members.first();
 
             if (lowercaseContent.startsWith(".naughty")) {
-                //TODO: FIX THIS. LENGTH from member mentions is undefined!
-                if (msg.mentions.members && msg.mentions.members.length != 1) {
-                    msg.reply("Invalid usage. You must @mention exactly one user " + msg.mentions.members.length);
+                if (!msg.mentions.members || !mentionedUser) {
+                    msg.reply("Invalid usage. You must @mention exactly one user");
                     return;
                 }
-                if (!mentionedUser.roles.has(serverInfo.sinner.id)) {
-                    mentionedUser.addRole(serverInfo.sinner);
-                    msg.channel.send("You've been very naughty " + mentionedUser);
+                if (serverInfo.naughtyPerson != null) {
+                    msg.reply("There's only room for one in the naughty corner");
                 } else {
-                    msg.reply("There's only so naughty one person can be");
+                    if (mentionedUser && !mentionedUser.roles.has(serverInfo.sinner.id)) {
+                        mentionedUser.addRole(serverInfo.sinner);
+                        Servers[msg.guild.id].naughtyPerson = mentionedUser;
+                        msg.channel.send("You've been very naughty " + mentionedUser + " " + Emojis["paddlin"]);
+                    } else {
+                        msg.reply("There's only so naughty one person can be");
+                    }
                 }
             }
 
             if (lowercaseContent.startsWith(".forgive")) {
-                if (msg.mentions.members && msg.mentions.members.length != 1) {
+                if (!msg.mentions.members || !mentionedUser) {
                     msg.reply("Invalid usage. You must @mention exactly one user");
                     return;
                 }
-                if (mentionedUser.roles.has(serverInfo.sinner.id)) {
+                if (mentionedUser && mentionedUser.roles.has(serverInfo.sinner.id)) {
                     mentionedUser.removeRole(serverInfo.sinner);
+                    Servers[msg.guild.id].naughtyPerson = null;
                     msg.channel.send("Enjoy your freedom while it lasts " + mentionedUser);
                 } else {
-                    msg.reply("There's no naughty boy/girl by such a name");
+                    msg.reply("There's no naughty nuisance by such a name");
                 }
             }
         }
 
         if (msg.member.roles.has(serverInfo.sinner.id)) {
-            console.log("sinner " + msg.member.name + " said summin");
-            //sinner said something, delete if they havent been mentioned since
+            if (serverInfo.userMentioned) {
+                msg.react(Emojis["paddlin"].id);
+                Servers[msg.guild.id].userMentioned = false;
+            } else {
+                msg.reply("Naughty people speak only when spoken to " + Emojis["paddlin"]);
+                msg.delete();
+            }
+        } else {
+            if (serverInfo.naughtyPerson && msg.isMemberMentioned(serverInfo.naughtyPerson) && !lowercaseContent.startsWith(".")) {
+                Servers[msg.guild.id].userMentioned = true;
+            }
         }
-            //Handle messages from normies
-
-
-
     }
 }

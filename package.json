@@ -1,0 +1,21 @@
+{
+  "name": "wa-melee-bot",
+  "version": "1.0.0",
+  "description": "dumb melee bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/sundowns/wa-melee-bot.git"
+  },
+  "author": "sundowns",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sundowns/wa-melee-bot#readme",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "moment": "^2.18.1",
+    "request-json": "^0.6.2"
+  }
+}

@@ -7,7 +7,7 @@ module.exports = {
         } else if (lowercaseContent === prefix + 'stream' || lowercaseContent === prefix + 'streams') {
             msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
-            msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/smashwest");
+            msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/curtinsmash");
         } else if (lowercaseContent === prefix + 'netplay') {
             var netplayRole = msg.guild.roles.find("name", "Netplay");
             if(msg.member.roles.has(netplayRole.id)) {
@@ -16,6 +16,13 @@ module.exports = {
             } else {
                 msg.member.addRole(netplayRole);
                 msg.reply("added Netplay role");
+            }
+        } else if (lowercaseContent.startsWith(prefix + 'f')) {
+            var result = lowercaseContent.match(/\.f (.+)/);
+            if (result) {
+                msg.channel.send("Press 🇫 to pay respects to " + result[1]).then(message => message.react("🇫"));
+            } else {
+                msg.channel.send("Press 🇫 to pay respects").then(message => message.react("🇫"));
             }
         }
         else { //free form text detection
