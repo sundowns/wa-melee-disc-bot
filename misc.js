@@ -3,7 +3,7 @@ const prefix = '.'
 module.exports = {
     MessageHandler : function(lowercaseContent, msg) {
         if (lowercaseContent === prefix + 'pr' || lowercaseContent === prefix + 'prs') {
-            msg.reply("\n http://imgur.com/RgTHr2M.jpg \n http://i.imgur.com/IqCOIpJ.png");
+            msg.reply("\n https://i.imgur.com/1DmMWem.png \n https://i.imgur.com/CSIdZ33.png");
         } else if (lowercaseContent === prefix + 'stream' || lowercaseContent === prefix + 'streams') {
             msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
@@ -18,7 +18,7 @@ module.exports = {
                 msg.reply("added Netplay role");
             }
         } else if (lowercaseContent.startsWith(prefix + 'f')) {
-            var result = lowercaseContent.match(/\.f (.+)/);
+            var result = msg.content.match(/\.f (.+)/);
             if (result) {
                 msg.channel.send("Press 🇫 to pay respects to " + result[1]).then(message => message.react("🇫"));
             } else if (lowercaseContent === ".f") {
