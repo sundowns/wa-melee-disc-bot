@@ -1,4 +1,5 @@
 const request = require('request-json');
+const Discord = require("discord.js");
 const twitchClientId = '1or2tbd8kb5jeqz3kokr754kb4svid';
 const twitchEndPoint = 'https://api.twitch.tv/kraken/'
 const streams = [
@@ -33,27 +34,34 @@ function findSuperSonic(emoji){
     return emoji.name == "supersonic";
 }
 
+let formatStreamPost = function(stream) {
+    var embed = new Discord.RichEmbed();
+    embed.setTitle(stream.title);
+    embed.setURL(stream.link);
+    embed.setColor([100, 65, 164]);
+    embed.setDescription(stream.game + " " + supersonic)
+    embed.addField("Channel", stream.link);
+    embed.addField("Viewers", stream.viewers);
+    return embed;
+}
+
 function reportNewStreams(newStreams) {
     var channel = discordClient.channels.find(findStreamsChannel);
-    var msg = "";
     newStreams.forEach(function(id) {
-        var stream = live[id];
-        msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\nViewers: " + stream.viewers;
-        msg = msg + "\n*======*\n";
+        if (live[id]) {
+            var post = formatStreamPost(live[id]);
+            channel.send(post);
+        }
     });
-    channel.send("**Now Live:** \n*======*\n" + msg + "\n" + supersonic + supersonic + supersonic + supersonic);
 }
 
 function reportAllStreams(promptMsg) {
-    var msg = "";
     streams.forEach(function(name) {
         if (live[name]) {
-            var stream = live[name]
-            msg = msg + stream.title + " (" + stream.game + ")\n" + stream.link + "\nViewers: " + stream.viewers;
-            msg = msg + "\n*======*\n";
+            var post = formatStreamPost(live[id]);
+            promptMsg.channel.send(post);
         }
-    })
-    promptMsg.reply("\n**Live:** \n*======*\n" + msg + "\n" + "Perth Tournament Streams: \n" + "\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
+    });
 }
 
 var checkStreams = function() {
@@ -103,7 +111,7 @@ module.exports = {
         checkStreams();
     },
     MessageHandler : function(lowercaseContent, msg) {
-        if (lowercaseContent === '.streams' || lowercaseContent === '.stream') reportAllStreams(msg);
+        //if (lowercaseContent === '.streams' || lowercaseContent === '.stream') reportAllStreams(msg);
     }
 }
 
