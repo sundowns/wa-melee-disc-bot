@@ -16,6 +16,10 @@ function findPaddlingEmoji(emoji) {
     return emoji.name == "paddlin";
 }
 
+function findSneakyEmoji(emoji) {
+    return emoji.name == "sneaky";
+}
+
 function findWAMeleeServer(server) {
     return server.id == "336001917304045569";
 }
@@ -33,6 +37,7 @@ module.exports = {
             }
         })
         Emojis["paddlin"] = Client.guilds.find(findWAMeleeServer).emojis.find(findPaddlingEmoji);
+        Emojis["sneaky"] = Client.guilds.find(findWAMeleeServer).emojis.find(findSneakyEmoji);
     },
     MessageHandler : function(lowercaseContent, msg) {
         var serverInfo = Servers[msg.guild.id];
@@ -74,10 +79,10 @@ module.exports = {
 
         if (msg.member.roles.has(serverInfo.sinner.id)) {
             if (serverInfo.userMentioned) {
-                msg.react(Emojis["paddlin"].id);
+                msg.react(Emojis["sneaky"].id);
                 Servers[msg.guild.id].userMentioned = false;
             } else {
-                msg.reply("Naughty people speak only when spoken to " + Emojis["paddlin"]);
+                msg.reply("Naughty people speak only when spoken to ").then(message => message.react(Emojis["paddlin"].id));
                 msg.delete();
             }
         } else {

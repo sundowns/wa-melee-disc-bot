@@ -21,7 +21,7 @@ module.exports = {
             var result = lowercaseContent.match(/\.f (.+)/);
             if (result) {
                 msg.channel.send("Press 🇫 to pay respects to " + result[1]).then(message => message.react("🇫"));
-            } else {
+            } else if (lowercaseContent === ".f") {
                 msg.channel.send("Press 🇫 to pay respects").then(message => message.react("🇫"));
             }
         }
