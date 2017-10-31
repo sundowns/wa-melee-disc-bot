@@ -24,6 +24,10 @@ module.exports = {
             } else if (lowercaseContent === ".f") {
                 msg.channel.send("Press 🇫 to pay respects").then(message => message.react("🇫"));
             }
+        } else if (lowercaseContent === prefix + 'rule1') {
+             msg.reply("\n http://imgur.com/a/NsNqI");
+        } else if (lowercaseContent === prefix + 'iso') {
+           msg.reply("\n**PAL netplay build:** https://drive.google.com/open?id=0B192sB6TRmD3MTM1clNzUHBOZHc \n**Perth UCF build:** https://drive.google.com/file/d/0B192sB6TRmD3RVZKSjMtUFltNHM/view");
         }
         else { //free form text detection
             // if (lowercaseContent.length > 1500) {
