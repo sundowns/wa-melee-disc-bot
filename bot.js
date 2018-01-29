@@ -27,4 +27,11 @@ client.on('message', msg => {
     sinbin.MessageHandler(lowercaseContent, msg);
 });
 
-client.login(tokens.prod);
+if (tokens) {
+    if (tokens.prod) {
+        client.login(tokens.prod);
+    } else {
+        console.log("Failed to locate prod token. Goodbye xoxo");
+        process.exit();
+    }
+}
