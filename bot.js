@@ -1,10 +1,11 @@
-const prodToken = 'MzM2MDg3MDc3MzI4Mzg4MDk2.DLR65g.Al5qmY8Zw44qFFAzhXINoXwhgk4';
+const fs = require('fs');
 const Discord = require("discord.js");
 const moment = require("moment");
 const client = new Discord.Client();
 const misc = require('./misc');
 const sinbin = require('./sinbin');
 const streams = require("./streams");
+const tokens = require("./tokens");
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -26,4 +27,4 @@ client.on('message', msg => {
     sinbin.MessageHandler(lowercaseContent, msg);
 });
 
-client.login(prodToken);
+client.login(tokens.prod);
