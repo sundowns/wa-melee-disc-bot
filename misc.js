@@ -17,7 +17,7 @@ module.exports = {
                 msg.member.addRole(netplayRole);
                 msg.reply("added Netplay role");
             }
-        } else if (lowercaseContent === prefix + 'tournament') {
+        } else if (lowercaseContent === prefix + 'tournament') { //try making use of usersWithRole(role) http://discordjs.readthedocs.io/en/latest/docs_server.html
             var tournamentRole = msg.guild.roles.find("name", "NetplayTournament");
             if(msg.member.roles.has(tournamentRole.id)) {
                 msg.member.removeRole(tournamentRole);

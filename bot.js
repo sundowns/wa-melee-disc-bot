@@ -32,6 +32,7 @@ if (tokens) {
         client.login(tokens.prod);
     } else {
         console.log("Failed to locate prod token. Goodbye xoxo");
+        console.log(tokens);
         process.exit();
     }
 }

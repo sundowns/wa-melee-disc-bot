@@ -22,8 +22,8 @@ var requestClient = {};
 //emotes
 var supersonic = {};
 
-function findWaMeleeGuild(guild) {
-    return guild.id == "336001917304045569";
+function findEmojiFarm(server) {
+    return server.id == "415409072763043840";
 }
 
 function findStreamsChannel(channel) {
@@ -106,7 +106,7 @@ module.exports = {
         discordClient = discord_client;
         requestClient = request.createClient(twitchEndPoint);
         requestClient.headers['Client-ID'] = twitchClientId;
-        var WaMelee = discord_client.guilds.find(findWaMeleeGuild);
+        var WaMelee = discord_client.guilds.find(findEmojiFarm);
         supersonic = WaMelee.emojis.find(findSuperSonic);
         checkStreams();
     },

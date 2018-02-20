@@ -3,6 +3,8 @@ var Sinbin_role = {}
 var Admin_role = {}
 var Servers = {};
 var Emojis = {};
+const EmojiFarmServerId = '415409072763043840';
+const WAMeleeServerId = '336001917304045569';
 
 function findAdminRole(role) {
     return role.name == "Admin";
@@ -20,6 +22,10 @@ function findSneakyEmoji(emoji) {
     return emoji.name == "sneaky";
 }
 
+function findEmojiFarm(server) {
+    return server.id == "415409072763043840";
+}
+
 function findWAMeleeServer(server) {
     return server.id == "336001917304045569";
 }
@@ -29,15 +35,38 @@ module.exports = {
         Client = discord_client;
         Client.guilds.forEach(function(guild) {
             var adminRole = guild.roles.find(findAdminRole);
-            if (!adminRole) { console.log("Failed to find admin role for guild: " + guild.name); }
+            var promise1;
+            var promise2;
+            if (!adminRole) {
+                promise1 = guild.createRole({
+                    name: "Admin",
+                    hoist: false
+                }).then(role => {
+                    adminRole = role;
+                    console.log("Successfully created admin role for " + guild.name);
+                }).catch(console.error);
+            }
             var sinnerRole = guild.roles.find(findSinnerRole);
-            if (!sinnerRole) { console.log("Failed to find naughty role for guild: " + guild.name); }
-            if (adminRole && sinnerRole) {
+            if (!sinnerRole) {
+                promise2 = guild.createRole({
+                    name: "Naughty",
+                    hoist: true,
+                    color: "RED"
+                }).then(role => {
+                    sinnerRole = role;
+                    console.log("Successfully created admin role for " + guild.name);
+                }).catch(console.error);
+             }
+            if (adminRole && sinnerRole) { //how can I make this wait for the other two?!
                 Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
+            } else {
+                Promise.all([promise1, promise2]).then(function() {
+                    Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
+                })
             }
         })
-        Emojis["paddlin"] = Client.guilds.find(findWAMeleeServer).emojis.find(findPaddlingEmoji);
-        Emojis["sneaky"] = Client.guilds.find(findWAMeleeServer).emojis.find(findSneakyEmoji);
+        Emojis["paddlin"] = Client.guilds.find(findEmojiFarm).emojis.find(findPaddlingEmoji);
+        Emojis["sneaky"] = Client.guilds.find(findEmojiFarm).emojis.find(findSneakyEmoji);
     },
     MessageHandler : function(lowercaseContent, msg) {
         var serverInfo = Servers[msg.guild.id];
