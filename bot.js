@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const moment = require("moment");
 const client = new Discord.Client();
 const misc = require('./misc');
+const tournamnet = require('./tournament');
 const sinbin = require('./sinbin');
 const streams = require("./streams");
 const tokens = require("./tokens");
@@ -21,8 +22,9 @@ client.on('message', msg => {
     if (lowercaseContent === '.help') {
         msg.channel.send("```css\n .pr => Power Rankings \n .stream => Perth Streams \n .bracket => Perth Challonges \n .netplay => Toggle Netplay Role ```");
     } else if (lowercaseContent === ".uptime") {
-        msg.channel.send("I've been livin' for " + moment(client.uptime/1000) + "s");
+        msg.channel.send("I've been livin' for " + moment.duration(client.uptime).asMinutes() + " minutes.");
     }
+    tournamnet.MessageHandler(lowercaseContent, msg);
     misc.MessageHandler(lowercaseContent, msg);
     sinbin.MessageHandler(lowercaseContent, msg);
 });
@@ -32,7 +34,6 @@ if (tokens) {
         client.login(tokens.prod);
     } else {
         console.log("Failed to locate prod token. Goodbye xoxo");
-        console.log(tokens);
         process.exit();
     }
 }

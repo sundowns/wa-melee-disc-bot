@@ -54,16 +54,12 @@ module.exports = {
                     color: "RED"
                 }).then(role => {
                     sinnerRole = role;
-                    console.log("Successfully created admin role for " + guild.name);
+                    console.log("Successfully created naughty role for " + guild.name);
                 }).catch(console.error);
-             }
-            if (adminRole && sinnerRole) { //how can I make this wait for the other two?!
-                Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
-            } else {
-                Promise.all([promise1, promise2]).then(function() {
-                    Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
-                })
             }
+            Promise.all([promise1, promise2]).then(function() {
+                Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
+            });
         })
         Emojis["paddlin"] = Client.guilds.find(findEmojiFarm).emojis.find(findPaddlingEmoji);
         Emojis["sneaky"] = Client.guilds.find(findEmojiFarm).emojis.find(findSneakyEmoji);
@@ -81,7 +77,10 @@ module.exports = {
                 if (serverInfo.naughtyPerson != null) {
                     msg.reply("There's only room for one in the naughty corner");
                 } else {
-                    if (mentionedUser && !mentionedUser.roles.has(serverInfo.sinner.id)) {
+                    if (mentionedUser.roles.has(serverInfo.admin.id)) {
+                        msg.reply("A mere robot doesn't dare to meddle with the gods")
+                    }
+                    else if (mentionedUser && !mentionedUser.roles.has(serverInfo.sinner.id)) {
                         mentionedUser.addRole(serverInfo.sinner);
                         Servers[msg.guild.id].naughtyPerson = mentionedUser;
                         msg.channel.send("You've been very naughty " + mentionedUser + " " + Emojis["paddlin"]);
@@ -106,7 +105,7 @@ module.exports = {
             }
         }
 
-        if (msg.member.roles.has(serverInfo.sinner.id)) {
+        if (msg.member.roles.has(serverInfo.sinner.id) && !msg.member.roles.has(serverInfo.admin.id)) {
             if (serverInfo.userMentioned) {
                 msg.react(Emojis["sneaky"].id);
                 Servers[msg.guild.id].userMentioned = false;
