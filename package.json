@@ -14,8 +14,8 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/sundowns/wa-melee-bot#readme",
   "dependencies": {
-    "discord.js": "^11.3.0",
-    "moment": "^2.20.1",
+    "discord.js": "^11.4.2",
+    "moment": "^2.22.2",
     "request-json": "^0.6.3"
   }
 }

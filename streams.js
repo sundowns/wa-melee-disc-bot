@@ -5,16 +5,14 @@ const twitchEndPoint = 'https://api.twitch.tv/kraken/'
 const streams = [
     'striderace21',
     'quetzalcoatl87',
-    'sunnydowns',
     'perthsmash',
-    'curtinsmash',
     'chappos',
     'melbournemelee',
     'mrnoied',
-    'downsmashed'
+    'antguana',
+    'kic19'
 ];
 
-const gameQueryParameter = '&game=Super%20Smash%20Bros.%20Melee';
 var live = [];
 var discordClient = {};
 var requestClient = {};
@@ -55,66 +53,63 @@ function reportNewStreams(newStreams) {
     });
 }
 
-function reportAllStreams(promptMsg) {
-    streams.forEach(function(name) {
-        if (live[name]) {
-            var post = formatStreamPost(live[id]);
-            promptMsg.channel.send(post);
-        }
-    });
-}
+function checkStreams() {
+   var streamsDelimited = streams.join();
+   requestClient.get('streams/?channel=' + streamsDelimited)
+      .then((result) => {
+         if (!result.res) {
+            console.log("[ERROR] Received response with no status code.")
+            return;
+         }
+         if (result.res.statusCode === 200 && result.body) {
+            if (result.body._total > 0) {
+               var newStreams = [];
+               body.streams.forEach(function(data) {
+                  if (!live[data.channel.display_name]) {
+                     live[data.channel.display_name] = {
+                        title : data.channel.status,
+                        viewers : data.viewers,
+                        game : data.game,
+                        link : data.channel.url,
+                        img : data.preview.medium
+                     }
 
-var checkStreams = function() {
-    var streamsDelimited = streams.join();
-    requestClient.get('streams/?channel=' + streamsDelimited + gameQueryParameter, function(err, res, body) {
-        if (err) {
-            return console.log(err);
-        } else {
-            latestStreams = body.streams;
-            if (body._total > 0) {
-                var newStreams = [];
-                body.streams.forEach(function(data) {
-                    if (!live[data.channel.display_name]) {
-                        live[data.channel.display_name] = {
-                            title : data.channel.status,
-                            viewers : data.viewers,
-                            game : data.game,
-                            link : data.channel.url,
-                            img : data.preview.medium
-                        }
-
-                        newStreams.push(data.channel.display_name);
-                    } else {
-                        //it already exists, just update the title/viewers
-                        live[data.channel.display_name].title = data.channel.status;
-                        live[data.channel.display_name].viewers = data.viewers;
-                    }
+                     newStreams.push(data.channel.display_name);
+                  } else {
+                     //it already exists, just update the title/viewers
+                     live[data.channel.display_name].title = data.channel.status;
+                     live[data.channel.display_name].viewers = data.viewers;
+                 }
                 });
 
-                if (newStreams.length > 0) {
-                    reportNewStreams(newStreams);
-                }
+               if (newStreams.length > 0) {
+                  reportNewStreams(newStreams);
+               }
             } else {
-                live = [];
+               live = [];
             }
-        }
-    });
+
+         }
+      }).catch((err) => {
+         console.log(err);
+         return;
+      });
 }
+
 
 module.exports = {
     Init : function(discord_client) {
         discordClient = discord_client;
         requestClient = request.createClient(twitchEndPoint);
         requestClient.headers['Client-ID'] = twitchClientId;
-        var WaMelee = discord_client.guilds.find(findEmojiFarm);
-        supersonic = WaMelee.emojis.find(findSuperSonic);
+        var emojiFarm = discord_client.guilds.find(findEmojiFarm);
+        supersonic = emojiFarm.emojis.find(findSuperSonic);
         checkStreams();
     },
     MessageHandler : function(lowercaseContent, msg) {
-        //if (lowercaseContent === '.streams' || lowercaseContent === '.stream') reportAllStreams(msg);
     }
 }
 
 setInterval(function() {
     checkStreams();
-}, 1 * 60 * 1000); //every 1 minutes
+}, 2 * 60 * 1000); //every 1 minutes

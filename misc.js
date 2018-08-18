@@ -5,7 +5,7 @@ module.exports = {
         if (lowercaseContent === prefix + 'pr' || lowercaseContent === prefix + 'prs') {
             msg.reply("\n https://i.imgur.com/1DmMWem.png \n https://i.imgur.com/CSIdZ33.png");
         } else if (lowercaseContent === prefix + 'stream' || lowercaseContent === prefix + 'streams') {
-            msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.smashcast.tv/perthsmash");
+            msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.youtube.com/channel/UCl8p1RKYAHgdgDDPS49-bJQ");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
             msg.reply("\n http://challonge.com/users/maribro \n http://challonge.com/users/perthsmash \n http://challonge.com/users/curtinsmash \n http://challonge.com/users/sundowns (netplay)");
         } else if (lowercaseContent.startsWith(prefix + 'f')) {

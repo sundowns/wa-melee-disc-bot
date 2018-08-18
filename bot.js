@@ -22,7 +22,7 @@ client.on('message', msg => {
     if (lowercaseContent === '.help') {
         msg.channel.send("```css\n .pr => Power Rankings \n .stream => Perth Streams \n .bracket => Perth Challonges \n .netplay => Toggle Netplay Role ```");
     } else if (lowercaseContent === ".uptime") {
-        msg.channel.send("I've been livin' for " + moment.duration(client.uptime).asMinutes() + " minutes.");
+        msg.channel.send("I've been livin' for " + Math.round(moment.duration(client.uptime).asMinutes()) + " minutes.");
     }
     tournamnet.MessageHandler(lowercaseContent, msg);
     misc.MessageHandler(lowercaseContent, msg);
