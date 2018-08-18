@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const moment = require("moment");
 const client = new Discord.Client();
 const misc = require('./misc');
-const tournamnet = require('./tournament');
+const tournament = require('./tournament');
 const sinbin = require('./sinbin');
 const streams = require("./streams");
 const tokens = require("./tokens");
@@ -24,7 +24,7 @@ client.on('message', msg => {
     } else if (lowercaseContent === ".uptime") {
         msg.channel.send("I've been livin' for " + Math.round(moment.duration(client.uptime).asMinutes()) + " minutes.");
     }
-    tournamnet.MessageHandler(lowercaseContent, msg);
+    tournament.MessageHandler(lowercaseContent, msg);
     misc.MessageHandler(lowercaseContent, msg);
     sinbin.MessageHandler(lowercaseContent, msg);
 });
