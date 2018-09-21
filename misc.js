@@ -3,7 +3,7 @@ const prefix = '.'
 module.exports = {
     MessageHandler : function(lowercaseContent, msg) {
         if (lowercaseContent === prefix + 'pr' || lowercaseContent === prefix + 'prs') {
-            msg.reply("\n https://i.imgur.com/1DmMWem.png \n https://i.imgur.com/CSIdZ33.png");
+            msg.reply("\n https://i.imgur.com/vQ6y16b.png \n https://i.imgur.com/CSIdZ33.png");
         } else if (lowercaseContent === prefix + 'stream' || lowercaseContent === prefix + 'streams') {
             msg.reply("\n https://www.twitch.tv/perthsmash \n https://www.youtube.com/channel/UCl8p1RKYAHgdgDDPS49-bJQ");
         } else if (lowercaseContent === prefix + 'bracket' || lowercaseContent === prefix + 'brackets') {
