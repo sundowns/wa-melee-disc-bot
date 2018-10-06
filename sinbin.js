@@ -1,40 +1,16 @@
-var Client = {}
-var Sinbin_role = {}
-var Admin_role = {}
+var Client = {};
 var Servers = {};
 var Emojis = {};
 const EmojiFarmServerId = '415409072763043840';
 const WAMeleeServerId = '336001917304045569';
-
-function findAdminRole(role) {
-    return role.name == "Admin";
-}
-
-function findSinnerRole(role) {
-    return role.name == "Naughty";
-}
-
-function findPaddlingEmoji(emoji) {
-    return emoji.name == "paddlin";
-}
-
-function findSneakyEmoji(emoji) {
-    return emoji.name == "sneaky";
-}
-
-function findEmojiFarm(server) {
-    return server.id == "415409072763043840";
-}
-
-function findWAMeleeServer(server) {
-    return server.id == "336001917304045569";
-}
+var Logger = {};
 
 module.exports = {
-    Init : function(discord_client) {
+    Init : function(discord_client, logger) {
+        Logger = logger;
         Client = discord_client;
         Client.guilds.forEach(function(guild) {
-            var adminRole = guild.roles.find(findAdminRole);
+            var adminRole = guild.roles.find(r => r.name == "Admin");
             var promise1;
             var promise2;
             if (!adminRole) {
@@ -43,10 +19,10 @@ module.exports = {
                     hoist: false
                 }).then(role => {
                     adminRole = role;
-                    console.log("Successfully created admin role for " + guild.name);
-                }).catch(console.error);
+                    Logger.info(`Successfully created admin role for ${guild.name}`);
+                }).catch(Logger.error);
             }
-            var sinnerRole = guild.roles.find(findSinnerRole);
+            var sinnerRole = guild.roles.find(r => r.name == "Naughty");
             if (!sinnerRole) {
                 promise2 = guild.createRole({
                     name: "Naughty",
@@ -54,15 +30,15 @@ module.exports = {
                     color: "RED"
                 }).then(role => {
                     sinnerRole = role;
-                    console.log("Successfully created naughty role for " + guild.name);
-                }).catch(console.error);
+                    Logger.info(`Successfully created naughty role for ${guild.name}`);
+                }).catch(Logger.error);
             }
             Promise.all([promise1, promise2]).then(function() {
                 Servers[guild.id] = {"admin" : adminRole, "sinner" : sinnerRole, "userMentioned" : false, "naughtyPerson" : null};
             });
         })
-        Emojis["paddlin"] = Client.guilds.find(findEmojiFarm).emojis.find(findPaddlingEmoji);
-        Emojis["sneaky"] = Client.guilds.find(findEmojiFarm).emojis.find(findSneakyEmoji);
+        Emojis["paddlin"] = Client.guilds.find(g => g.id == EmojiFarmServerId).emojis.find(e => e.name == "paddlin");
+        Emojis["sneaky"] = Client.guilds.find(g => g.id == EmojiFarmServerId).emojis.find(e => e.name == "sneaky");
     },
     MessageHandler : function(lowercaseContent, msg) {
         var serverInfo = Servers[msg.guild.id];

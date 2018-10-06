@@ -1,2 +1,5 @@
 tokens.js
 node_modules/
+
+combined.log
+error.log

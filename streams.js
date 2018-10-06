@@ -12,25 +12,16 @@ const streams = [
     'antguana',
     'kic19'
 ];
+const emojiServerId = "415409072763043840";
+const streamsChannelId = "337881711436234752"; // streams channel = '337881711436234752' //dumb bot shit = '336087767387865089'
 
 var live = [];
 var discordClient = {};
 var requestClient = {};
+var Logger = {};
 
 //emotes
 var supersonic = {};
-
-function findEmojiFarm(server) {
-    return server.id == "415409072763043840";
-}
-
-function findStreamsChannel(channel) {
-    return channel.id == "337881711436234752"; // streams channel = '337881711436234752' //dumb bot shit = '336087767387865089'
-}
-
-function findSuperSonic(emoji){
-    return emoji.name == "supersonic";
-}
 
 let formatStreamPost = function(stream) {
     var embed = new Discord.RichEmbed();
@@ -44,7 +35,7 @@ let formatStreamPost = function(stream) {
 }
 
 function reportNewStreams(newStreams) {
-    var channel = discordClient.channels.find(findStreamsChannel);
+    var channel = discordClient.channels.find(c => c.id == streamsChannelId);
     newStreams.forEach(function(id) {
         if (live[id]) {
             var post = formatStreamPost(live[id]);
@@ -58,7 +49,7 @@ function checkStreams() {
    requestClient.get('streams/?channel=' + streamsDelimited)
       .then((result) => {
          if (!result.res) {
-            console.log("[ERROR] Received response with no status code.")
+            Logger.error("[ERROR] Received response with no status code.")
             return;
          }
          if (result.res.statusCode === 200 && result.body) {
@@ -90,20 +81,18 @@ function checkStreams() {
             }
 
          }
-      }).catch((err) => {
-         console.log(err);
-         return;
-      });
+      }).catch(Logger.error);
 }
 
 
 module.exports = {
-    Init : function(discord_client) {
+    Init : function(discord_client, logger) {
+        Logger = logger;
         discordClient = discord_client;
         requestClient = request.createClient(twitchEndPoint);
         requestClient.headers['Client-ID'] = twitchClientId;
-        var emojiFarm = discord_client.guilds.find(findEmojiFarm);
-        supersonic = emojiFarm.emojis.find(findSuperSonic);
+        var emojiFarm = discord_client.guilds.find(g => g.id == emojiServerId);
+        supersonic = emojiFarm.emojis.find(e => e.name == "supersonic");
         checkStreams();
     },
     MessageHandler : function(lowercaseContent, msg) {
