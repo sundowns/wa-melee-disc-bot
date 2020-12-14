@@ -10,6 +10,7 @@ module.exports = {
     Logger = logger;
   },
   MessageHandler: function (lowercaseContent, msg) {
+    Logger.info({msg})
     if (lowercaseContent === prefix + "netplay") {
       var netplayRole = msg.guild.roles.find("name", "Netplay");
       if (!netplayRole) {
