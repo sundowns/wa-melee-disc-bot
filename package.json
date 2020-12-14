@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:cloud": "sudo forever bot.js &"
+    "start:cloud": "forever bot.js &"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/sundowns/wa-melee-bot#readme",
   "dependencies": {
-    "discord.js": "^12.5.1",
+    "discord.js": "^11.4.2",
     "forever": "^3.0.4",
     "moment": "^2.22.2",
     "request-json": "^0.6.3",
