@@ -4,7 +4,7 @@ const winston = require("winston");
 const client = new Discord.Client();
 const misc = require("./misc");
 const tournament = require("./tournament");
-const sinbin = require("./sinbin");
+// const sinbin = require("./sinbin");
 const streams = require("./streams");
 const tokens = require("./tokens");
 
@@ -27,7 +27,7 @@ client.on("ready", () => {
     status: "online",
     game: { name: "checking his naughty list (twice)" },
   });
-  sinbin.Init(client, Logger);
+  // sinbin.Init(client, Logger);
   streams.Init(client, Logger);
   tournament.Init(Logger);
 });
@@ -43,7 +43,7 @@ client.on("message", (msg) => {
   }
   tournament.MessageHandler(lowercaseContent, msg);
   misc.MessageHandler(lowercaseContent, msg);
-  sinbin.MessageHandler(lowercaseContent, msg);
+  // sinbin.MessageHandler(lowercaseContent, msg);
 });
 
 const sendHelpMessage = (msg) => {
